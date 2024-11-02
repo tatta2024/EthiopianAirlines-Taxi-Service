@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethiopian Ride Fare Estimator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        button {
+            margin-right: 10px;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Ethiopian Airlines Taxi Service</h1>
+    <button onclick="startCar()">Ready?, Let's move</button>
+    <button onclick="stopCar()">Thanks, We can stop hear</button>
+    <p id="result"></p>
+
+    <script>
+        let distance = 0; // Distance in meters
+        const baseFee = 100; // Starting fee in birr
+        const costPerMeter = 17; // Cost per kilometer in birr
+        const averageSpeed = 416.67; // Average speed in meters per minute
+        let intervalId;
+        let timeElapsed = 0; // Time elapsed in minutes
+
+        function startCar() {
+            console.log("Start button clicked."); // Debugging log
+            if (intervalId) {
+                clearInterval(intervalId); // Clear previous interval if it exists
+            }
+            distance = 0;
+            timeElapsed = 0; // Reset time
+            document.getElementById("result").innerText = "Car is moving...";
+            console.log("Car starting..."); // Debugging log
+
+            intervalId = setInterval(() => {
+                distance += averageSpeed; // Increase by average speed per minute
+                timeElapsed++; // Increment time elapsed
+                console.log(`Distance: ${distance.toFixed(2)} meters, Time: ${timeElapsed} minutes`); // Log for debugging
+            }, 60000); // 1 minute
+        }
+
+        function stopCar() {
+            clearInterval(intervalId); // Stop incrementing distance
+
+            const totalCost = baseFee + (distance / 1000) * costPerMeter; // Calculate total cost
+            document.getElementById("result").innerText = 
+                `Total distance traveled: ${distance.toFixed(2)} meters\n` +
+                `Total time traveled: ${timeElapsed} minutes\n` +
+                `Total cost: ${totalCost.toFixed(2)} birr`;
+        }
+    </script>
+
+</body>
+</html>
